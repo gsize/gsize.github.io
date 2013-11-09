@@ -15,8 +15,8 @@ description: 整了将近一周，终于搞明白怎么在github-blog上面用je
 
 孩子，好好写啊！哥留名网络就靠你了！
 
-[github]: github.com "GitHub"
-[beiyuu]: beiyuu.com "BeiYuu"
+[github]: http://github.com "GitHub"
+[beiyuu]: http://beiyuu.com "BeiYuu"
 [我为什么写博客？]:  http://beiyuu.com/why-blog/
 [博客]:  http://beiyuu.com/github-pages/
 [portablejekyll]:  http://www.madhur.co.in/blog/2013/07/20/buildportablejekyll.html
@@ -27,9 +27,9 @@ description: 整了将近一周，终于搞明白怎么在github-blog上面用je
 既然要写博客，那就得给站点给个行动纲领之类的吧，不然毫无目的性的写，这个站点就像是清晨的一群村妇在溪边洗衣服时的闲扯了。
 
 那就分三种类型的博文吧：
-   -  身边事
-   -  工作、技术贴
-   -  心事
+   1.  身边事
+   2.  工作、技术贴
+   3.  心事
 
 ##谈谈逻辑性##
 
