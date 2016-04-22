@@ -5,12 +5,14 @@ description: 描述Geant4中各个物理过程的层级结构
 category: blog
 ---
 
-
-最近在修改[HPGe_simulation][1]程序中如何引入直接从粒子发生器(`G4VUserPrimaryGeneratorAction`)中输入衰变粒子即可得到该粒子的gamma能谱。
+   最近在修改[HPGe_simulation][1]程序中如何引入直接从粒子发生器(`G4VUserPrimaryGeneratorAction`)中输入衰变粒子即可得到该粒子的gamma能谱。
 只要在PhysicsList中加`G4RadioactiveDecayPhysics`类,即可实现对衰变核素的gamma跃迁进行模拟。顺便了解Geant4中物理过程(PhysicsList)的组成。
 
 
+------------------------------------
 ## 粒子物理基础知识
+
+------------------------------------
 
 先复习一下粒子物理知识，世间万物由以下粒子组成（除了最后一个），类似于面向对象编程中的对象——类，它们之间相互作用类似为类的操作。
 粒子种类如下：
@@ -29,16 +31,22 @@ category: blog
 *  电磁作用  （所有带电粒子）
 *  强相互作用 （所有带色荷粒子，如：夸克、胶子）
 
-------------------------------------
 
+------------------------------------
 ## 关于Geant4中的物理过程
 
-用户在写Geant4应用程序时，要么自己实现`PhysicsList`，要么直接使用集成好的物理过程。
+------------------------------------
 
-### 自己实现`PhysicsList`
+用户在写Geant4应用程序时，要么自己实现`PhysicsList`，要么直接使用集成好的物理过程。
+Geant4实现的物理作用集中在强作用与电磁作用两方面。
+
+
+------------------------------------
+### 手动实现PhysicsList
 
 在Geant4中，用户的`PhysicsList`类一般继承自`G4VUserPhysicsList`或`G4VModularPhysicsList`这两个类。
 PhysicsList包括粒子种类，对应的物理作用类型，以及相关的能量截断值(cut)设置。
+
 早期在搭建自己的物理过程时会选用前者，现在写PhysicsList使用后者。因为`G4VModularPhysicsList`继承自`G4VUserPhysicsList`，
 并提供了更多灵活的操作函数，可以模块化选择所需要的物理过程。
 下面是`G4VModularPhysicsList`相关的操作函数：
@@ -83,10 +91,14 @@ PhysicsList包括粒子种类，对应的物理作用类型，以及相关的能
 同时，`G4VModularPhysicsList`类实现自动调用`void ConstructParticle()`和`void ConstructProcess()`函数，
 无需像`G4VUserPhysicsList`重写(override)这两个函数。
 
-### 使用`G4PhysListFactory`调用集成的物理过程
+
+------------------------------------
+### 使用G4PhysListFactory调用集成的物理过程
 
 目前，Geant4集成了很多可直接调用的`PhysicsList`类，这些物理过程可以在源代码[G4PhysListFactory][]，
-具体如下：
+也可以在[Geant4网站][2]中看到它们的[适用范围][3]。
+这些集成的物理过程如下所列：
+
 *   FTFP_BERT
 *	FTFP_BERT_TRV
 *	FTFP_BERT_HP
@@ -109,7 +121,7 @@ PhysicsList包括粒子种类，对应的物理作用类型，以及相关的能
 *	ShieldingM
 *	NuBeam
 
-涉及到电磁作用的有以下7个
+涉及到电磁作用的物理过程可索引[网站][6]查看详细信息，目前有以下7个
 
 *	\_EMV —— `G4EmStandardPhysics_option1()`
 *	\_EMX —— `G4EmStandardPhysics_option2()`
@@ -150,9 +162,9 @@ PhysicsList包括粒子种类，对应的物理作用类型，以及相关的能
 ```
 
 通过上面的代码可发现，在运行程序前先设置好环境变量`PHYSLIST`，即可实现不同物理过程的调用。
-例如，`export PhysList=FTFP_BERT_LIV`定义好环境变量后，应用程序时实现调用`FTFP_BERT()`和`G4EmLivermorePhysics()`这两个物理过程，实现强作用和电磁作用的调用。
+例如，`export PhysList=FTFP_BERT_LIV`定义好环境变量后，应用程序将自动调用`FTFP_BERT()`和`G4EmLivermorePhysics()`这两个物理过程，实现强作用和电磁作用的调用。
 
-不过我采用`PhysicsListMessager`来管理物理过程的选择，方便在mac文件中调用。
+也能采用`PhysicsListMessager`来管理物理过程的选择，方便在mac文件中调用。
 在PhysicsList类中添加一个`AddPackage(const G4String& name)`，实现代码如下：
 
 ```{.cpp}
@@ -175,6 +187,21 @@ PhysicsList包括粒子种类，对应的物理作用类型，以及相关的能
 
 其中，不用`RegisterPhysics(elem)`，改用`ReplacePhysics(elem)`，因为前者在相同类型的物理过程已经存在时无法被替换。
 
+------------------------------------
+
+其实，Geant4软件有相当完善的资料提供给开发人员及用户，这些资料在[Geant4用户支持][7]页面之中。
+里面包含了：
+
+* [Geant4历年组织的培训资料][8] 
+* [代码索引][9] 
+* [常见问题及解答][10] 
+* [Geant4论坛][11] 
+* [Geant4相关文档][12] 
+* [各类学习例子][13] 
+* [电磁相互作用物理过程][14] 
+* [强相互作用物理过程][15] 
+* [Geant4应用程序的计算性能优化提示][16] 
+
 
 
 [Hadr00]:  http://www-geant4.kek.jp/lxr/source/examples/extended/hadronic/Hadr00/Hadr00.cc "Hadr00"
@@ -183,3 +210,20 @@ PhysicsList包括粒子种类，对应的物理作用类型，以及相关的能
 
 [Gsize]:    http://gsize.github.io  "Gsize"
 [1]:  https://github.com/gsize/HPGe_simulation "HPGe_simulationulation"
+[2]:  http://geant4.web.cern.ch/geant4/support/proc_mod_catalog/physics_lists/referencePL.shtml "物理过程索引"
+[3]:  http://geant4.web.cern.ch/geant4/support/proc_mod_catalog/physics_lists/useCases.shtml "物理过程索引"
+[4]:  http://www-public.slac.stanford.edu/geant4/  "斯坦福大学Geant4"
+[5]:  http://geant4.in2p3.fr/  "法国in2p3实验室Geant4"
+[6]:  http://geant4.cern.ch/collaboration/working_groups/electromagnetic/physlist.shtml#PL "电磁相互作用"
+[7]:  http://geant4.cern.ch/support/index.shtml  "Geant4用户支持"
+
+[8]:  http://geant4.cern.ch/support/training.shtml  "历年培训资料"
+[9]: http://www-geant4.kek.jp/Reference/   "代码索引"
+[10]:  http://geant4.cern.ch/support/faq.shtml  "常见问题及解答"
+[11]:  http://hypernews.slac.stanford.edu/HyperNews/geant4/cindex  "论坛"
+[12]:  http://geant4.cern.ch/support/userdocuments.shtml  "Geant4各类文档"
+[13]:  http://cern.ch/geant4/UserDocumentation/Doxygen/examples_doc/html/  "Geant4各类例子"
+[14]:  http://geant4.cern.ch/collaboration/working_groups/electromagnetic/physlist.shtml  "电磁相互作用"
+[15]: http://geant4.cern.ch/support/proc_mod_catalog/physics_lists/physicsLists.shtml "强相互作用"
+[16]:  https://twiki.cern.ch/twiki/bin/view/Geant4/Geant4PerformanceTips  "Geant4性能优化"
+
