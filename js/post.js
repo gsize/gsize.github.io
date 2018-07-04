@@ -39,14 +39,14 @@ $(document).ready(function(){
 //		<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
 
 		//***********************
-		//**评论的代码也删掉哦***
+
 		    window.disqus_shortname = 'gsize'; // required: replace example with your forum shortname
 		    $('#disqus_container .comment').on('click',function(){
 		        $(this).html('加载中...');
 		        var that = this;
 		        $.getScript('http://' + disqus_shortname + '.disqus.com/embed.js',function(){$(that).remove()});
 		    });
-		//**评论的代码也删掉哦***
+
 		//***********************
 
 		$('.entry a').each(function(index,element){

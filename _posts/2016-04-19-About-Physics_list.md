@@ -93,6 +93,61 @@ PhysicsList包括粒子种类，对应的物理作用类型，以及相关的能
 
 
 ------------------------------------
+### 使用G4GenericPhysicsList调用constructors的物理过程
+
+利用`G4GenericPhysicsList`类实现在mac脚本或物理过程的名称列表调用Geant4源代码physics_list/constructors中的各种物理过程。
+具体实现参考`extended/hadronic/Hadr05`例子。
+下面展示在`main()`函数中的用法：
+
+```{.cpp}
+  G4VModularPhysicsList* phys = 0;
+  G4UImanager* UImanager = G4UImanager::GetUIpointer();
+ 
+  // Physics List name defined via 3nd argument
+  if (argc>=3) 
+    { 
+      phys = new G4GenericPhysicsList();
+      G4String physListMacro = argv[2];
+      UImanager->ApplyCommand("/control/execute "+physListMacro);
+    }
+  else
+    {
+
+      std::vector<G4String>* MyConstr = new std::vector<G4String>;
+
+      MyConstr->push_back("G4EmStandardPhysics");
+      MyConstr->push_back("G4EmExtraPhysics");
+      MyConstr->push_back("G4DecayPhysics");
+      MyConstr->push_back("G4HadronElasticPhysics");
+      MyConstr->push_back("G4HadronPhysicsFTFP_BERT");
+      MyConstr->push_back("G4StoppingPhysics");
+      MyConstr->push_back("G4IonPhysics");
+      MyConstr->push_back("G4NeutronTrackingCut");
+
+      phys = new G4GenericPhysicsList(MyConstr);
+    }
+
+  runManager->SetUserInitialization(phys);
+```
+不过这个类有一个不足，在runManager初始化之前，必须先加载好物理过程，否则，运行时会提示错误。
+下面的示例为mac脚本
+
+```
+/PhysicsList/defaultCutValue  0.7
+/PhysicsList/SetVerboseLevel 1
+
+/PhysicsList/RegisterPhysics G4EmStandardPhysics
+/PhysicsList/RegisterPhysics G4EmExtraPhysics
+/PhysicsList/RegisterPhysics G4DecayPhysics
+/PhysicsList/RegisterPhysics G4HadronElasticPhysics
+/PhysicsList/RegisterPhysics G4HadronPhysicsFTFP_BERT
+/PhysicsList/RegisterPhysics G4StoppingPhysics
+/PhysicsList/RegisterPhysics G4IonPhysics
+/PhysicsList/RegisterPhysics G4NeutronTrackingCut
+
+```
+
+------------------------------------
 ### 使用G4PhysListFactory调用集成的物理过程
 
 目前，Geant4集成了很多可直接调用的`PhysicsList`类，这些物理过程可以在源代码[G4PhysListFactory][]，
