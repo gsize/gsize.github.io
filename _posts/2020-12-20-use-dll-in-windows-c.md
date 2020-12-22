@@ -1,7 +1,7 @@
 ---
 layout: post
-title: PBS集群系统中增加计算节点
-description: 在原有的PBS集群系统中增加计算节点
+title: 调用dll接口
+description: 调用dll接口
 category: blog
 ---
 
@@ -31,7 +31,7 @@ extern "C" DLL_TEST_APIEXPORT int TimeCalibration(const char **, const int , con
 ## dll调用方法
 显式对函数的调用使用动态调用如下所示：
 
-···c
+```c
 #include <windows.h>
 typedef int(__cdecl *pTimeCalibration)(const char **, const int , const char *, const char *, int)
 SetDllDirectory(TEXT("your dll path( not contain dll name)"))
@@ -49,5 +49,5 @@ if(!timeCalibration)
 }
 timeCalibration();  //run you time calibration 
 
-···
+```
 
