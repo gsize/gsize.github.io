@@ -34,5 +34,7 @@ Archlinux系统具体有两大特点：1、滚动升级，无所谓的大版本�
 3、 做grub引导时，如果是BIOS systems引导，记得先分出一个1-2M分区出来；我在vbox中不打开efi引导，智能这么干。
 4、 在vbox中，网络用nat，手动修改虚拟系统的IP，连不上网络，通过dhcp动态获取IP倒是可以联网，记得先安装dhcpd、openssh。
 5、 安装dwm之前，需要安装xorg-xinit，xorg-apps，xorg-server；配置.xinitrc
+6、 安装字体，wqy-microhei、 wqy-mirochei-lite
+7、 虚拟机中共享host的文件夹需要安装vbox的增强功能包，把vboxsf组添加到用户里(usermod -a -G vboxsf yourName);
 
 [Gsize]:    http://gsize.github.io  "Gsize"
