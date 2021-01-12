@@ -33,5 +33,6 @@ Archlinux系统具体有两大特点：1、滚动升级，无所谓的大版本�
 2、 如果时代理上网，export修改http_proxy、https_proxy的代理ip及端口
 3、 做grub引导时，如果是BIOS systems引导，记得先分出一个1-2M分区出来；我在vbox中不打开efi引导，智能这么干。
 4、 在vbox中，网络用nat，手动修改虚拟系统的IP，连不上网络，通过dhcp动态获取IP倒是可以联网，记得先安装dhcpd、openssh。
+5、 安装dwm之前，需要安装xorg-xinit，xorg-apps，xorg-server；配置.xinitrc
 
 [Gsize]:    http://gsize.github.io  "Gsize"
