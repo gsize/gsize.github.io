@@ -1,0 +1,20 @@
+---
+layout: post
+title: python移植版中增加tkinter支持
+description: python移植版中增加tkinter支持
+category: blog
+---
+
+
+# python移植版中增加tkinter支持
+
+虽说标准安装的python已经加入了tkinter的支持，但python-embed版（移植版）没有内建这个模块。
+想用tkinter制作GUI程序，又想用最低配置的python支持。这可如何是好？
+
+网上搜索一番，有人干过这事。
+链接地址：https://stackoverflow.com/questions/37710205/python-embeddable-zip-install-tkinter
+
+具体4步操作：
+1. 确定python-embed版本，再装一个准安装的python版本，里面拥有tkinter模块及相应依赖;
+2. 将标准版安装目录下的tcl 
+
