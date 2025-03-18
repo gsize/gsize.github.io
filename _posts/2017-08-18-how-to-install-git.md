@@ -12,7 +12,7 @@ category: blog
 
 在自己的home目录里编译了curl，
 
-然后通过国如下命令：
+然后通过如下命令：
 make CURLDIR=/you/instal/the/curl-dir NO_R_TO_GCC_LINKER=1 prefix=/home/petgroup/tools/test/fmi/tofpet/GaoSize/opt/git-install install
 
 注意：CURLDIR是安装curl的目录，
